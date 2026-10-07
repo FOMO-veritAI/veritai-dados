@@ -1,0 +1,33 @@
+# Consultas ao Google Fact Check (claims:search, languageCode=pt), uma por linha; # comenta.
+# A VeritAI traz no máximo 5 checagens por consulta (pageSize=5 em veritai/fontes.py).
+# Temas alinhados às fontes da base: estatísticas do IBGE, educação (INEP), saúde e governo federal.
+desemprego IBGE
+taxa de desemprego
+inflação IPCA
+PIB Brasil
+produção industrial
+Censo IBGE população
+renda média trabalhador
+salário mínimo
+Bolsa Família
+Enem
+Ideb
+Censo Escolar
+analfabetismo
+universidade federal vagas
+vacina
+dengue casos
+SUS
+Farmácia Popular
+reforma tributária
+imposto de renda
+aposentadoria INSS
+Pix taxa
+desmatamento Amazônia
+queimadas
+urnas eletrônicas
+eleições 2026
+segurança pública homicídios
+preço da gasolina
+dólar câmbio
+dívida pública
