@@ -10,6 +10,9 @@ Nada aqui decide resultado. Esta parte só escolhe e carrega os documentos que a
 fontes/fontes.md    fontes propostas, como cada uma entra, robots.txt, licença e situação
 coleta/listar.py    monta um manifesto (JSONL) por fonte: url, fonte, titulo, data e, na API do IBGE, texto
 coleta/carregar.py  carrega manifestos na base com a carga da própria VeritAI
+coleta/consultas-checagens.txt  consultas ao Google Fact Check (importar-checagens --consulta)
+mapeamento/vereditos.csv  proposta: veredito da agência → 4 classes da VeritAI
+mapeamento/aplicar.py     aplica o mapeamento às checagens da base e gera a planilha de revisão
 saida/              manifestos e lotes locais (fora do git)
 ```
 

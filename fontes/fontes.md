@@ -20,3 +20,12 @@ Cada fonte foi conferida em 06/10/2026 com o User-Agent da VeritAI (`VeritAI/0.1
 - **Timeouts:** o leitor tem limite de 12 s. Algumas páginas da Agência Gov passam disso; basta rodar a carga de novo, porque as que já entraram são puladas.
 - **Agência Gov × Agência Brasil:** as duas são da EBC. O domínio é diferente, então contam como fontes independentes, a menos que o texto seja cópia quase literal.
 - **PDFs** (Diário Oficial, notas técnicas, relatórios do IBGE e do INEP) não são lidos pelo `importar-urls`. Precisam de extração de texto e entram por `importar-textos`.
+
+## Checagens (Google Fact Check Tools)
+
+Carga de 07/10/2026: 29 consultas de `coleta/consultas-checagens.txt`, com `languageCode=pt` e no máximo 5 resultados por consulta (limite da VeritAI). Entraram **102 checagens** de 8 agências: Aos Fatos 34, UOL 25, Estadão 23, AFP Checamos 10, Comprova 3, Agência Pública 3, Observador 3 e AletheiaFact 1.
+
+- **46 sem data (45%).** A VeritAI usa só `reviewDate`, e a API muitas vezes não manda esse campo. Em parte desses casos existe `claimDate`, que é a data em que a alegação circulou, não a da checagem. É preciso decidir se ela serve como substituta: sem data, não há filtro temporal nem separação por período na avaliação.
+- **Desequilíbrio forte:** 56 refutadas e 42 enganosas ou sem contexto, contra só 3 verdadeiras. As agências checam sobretudo o que é falso. Isso não serve como base de rótulos balanceada.
+- **Observador é português (Portugal):** `languageCode=pt` não separa Brasil de Portugal. Avaliar se entra.
+- **Mapeamento para as 4 classes:** proposta em `mapeamento/vereditos.csv`, aplicada por `mapeamento/aplicar.py` (gera `saida/checagens-mapeadas.csv` para revisão manual). O esquema da base ainda não tem coluna para a classe; o mapeamento vive aqui até o dev incluí-la.

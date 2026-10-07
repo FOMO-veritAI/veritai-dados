@@ -1,0 +1,15 @@
+veredito_normalizado,classe,revisar,justificativa
+falso,REFUTED,nao,A agência conclui que a alegação é falsa.
+errado,REFUTED,nao,Sinônimo de falso.
+verdadeiro,SUPPORTED,nao,A agência confirma a alegação.
+confiavel,SUPPORTED,nao,A agência confirma a alegação.
+insustentavel,NOT_ENOUGH_EVIDENCE,sim,"Na Aos Fatos, a alegação não tem dados que a sustentem; não é refutação direta."
+enganoso,CONFLICTING_EVIDENCE,sim,"Mistura fato e distorção; no AVeriTeC, equivale a Conflicting Evidence/Cherry-picking."
+enganador,CONFLICTING_EVIDENCE,sim,Mesmo sentido de enganoso.
+distorcido,CONFLICTING_EVIDENCE,sim,Parte verdadeira com conclusão distorcida.
+sem contexto,CONFLICTING_EVIDENCE,sim,Verdadeiro isoladamente e enganoso no contexto (cherry-picking).
+fora de contexto,CONFLICTING_EVIDENCE,sim,Mesmo sentido de sem contexto.
+nao e bem assim,CONFLICTING_EVIDENCE,sim,"Na Aos Fatos, a alegação é parcialmente correta."
+confiavel mas,CONFLICTING_EVIDENCE,sim,Verdadeiro com ressalva relevante.
+impreciso,REFUTED,sim,"Dado próximo, mas incorreto; para a VeritAI, número errado contradiz. Pode ser CONFLICTING se o erro for pequeno."
+exagerado,REFUTED,sim,"Exagera o dado; para a VeritAI, número errado contradiz. Pode ser CONFLICTING se o erro for pequeno."
