@@ -1,6 +1,4 @@
-# veritai-dados
-
-# VeritAI — Dados
+# VeritAI - Dados
 
 Repositório destinado à organização, preparação, validação e análise dos dados utilizados pela **VeritAI**, serviço de Inteligência Artificial responsável pela análise de confiabilidade das afirmações no contexto do FOMO.
 
