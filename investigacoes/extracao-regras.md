@@ -70,3 +70,41 @@ O `anotar_ano` do verificador tratava "Rio de Janeiro" como o mês de janeiro ("
 - **Não separa fatos ligados por "e" na mesma oração.**
 - **Não decide se vale checar:** a pontuação é heurística. A ordem das candidatas não é importância jornalística.
 - **Regras de operação,** não validadas: a anotação da amostra é o próximo passo.
+
+## Pré-rotulagem da amostra por IA (08/10/2026)
+
+As 150 candidatas da amostra (29 notícias com candidatas) foram rotuladas por um subagente com o Claude Sonnet. Ele recebeu o texto da notícia e as candidatas, **sem** pontuação, sinais e alertas do extrator. O resultado está em `rotulos/extracao-v0/pre-rotulos-ia.csv` (`anotador = claude-sonnet-pre`, `revisao = pendente_humano`), separado do `anotacao.csv`, que continua em branco para a anotação humana cega.
+
+**É pré-rotulagem, não medida.** Nas afirmações e checagens, a revisão humana relatada concordou com todos os rótulos da IA. Mesmo assim, estes números só contam depois de conferidos.
+
+| Medida (pré-rótulos) | Valor |
+|---|---|
+| Candidatas verificáveis | 135/150 (90%) |
+| Entre as verificáveis: um fato só | 53% |
+| Entre as verificáveis: compreensíveis sozinhas | 22% |
+| Entre as verificáveis: as duas coisas (prontas para o `/analisar` sem edição) | 16 (12%) |
+
+O que isso diz sobre a abordagem A:
+- **Escolha das frases:** as regras escolhem bem *quais* frases propor; 90% são fatos verificáveis.
+- **Edição necessária:** quase todas precisam de edição. Falta sujeito ou ano, ou a frase junta vários fatos. É o argumento para a abordagem com LLM e travas, que descontextualiza e separa.
+- **Valor dos alertas do extrator:**
+
+  | Alerta | Candidatas | Efeito |
+  |---|---|---|
+  | sem período | 70 | 96% não compreensíveis sozinhas, contra 65% sem o alerta |
+  | depende da frase anterior | 10 | 100% não compreensíveis |
+  | citação | 7 | 43% não verificáveis, contra 8% |
+  | futuro ou intenção | 12 | quase não distingue (83% contra 79%) |
+
+- **Sobras de página:** o subagente marcou intertítulos grudados em várias candidatas ("Região Nordeste Sábado (3)"). Isso vem do texto achatado da base, não do extrator; o texto do publicador teria quebras de linha.
+
+**Defeitos do extrator achados pelo subagente** (c085, c089), ambos no `anotar_ano` do verificador, que também prepara a entrada do NLI. Foram corrigidos:
+- **intervalo:** em "entre outubro e dezembro", publicado em outubro de 2026, dezembro virava **2025**. Agora o segundo mês segue o primeiro;
+- **ano por extenso:** "setembro do ano passado" virava "setembro de 2026 do ano passado". Agora não se acrescenta ano quando ele já vem dito.
+
+Na V1, rodado antes e depois, nenhuma predição muda nos releases (dev, validação, contraste), no AVERITEC-BR nem nos vizinhos. A amostra de anotação **não** foi regenerada: ela continua com as propostas da versão `regras-2026-10-08`, para que as anotações humanas e os pré-rótulos se refiram ao mesmo texto.
+
+Dúvidas registradas pelo subagente, que valem para a revisão humana:
+- **c106 e c020:** horário de apostas e de programa de rádio, que podem ser lidos como frase de serviço;
+- **c126:** declaração de uma das partes;
+- **c139:** texto cortado no limite de 6.000 caracteres da entrada.
