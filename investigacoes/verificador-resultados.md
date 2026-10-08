@@ -49,7 +49,7 @@ As relações neutralizadas entram nas `limitacoes` do relatório. O contrato co
   No V1, esses casos ainda saem REFUTED ou SUPPORTED.
 - **Regras feitas à mão e ajustadas no conjunto de desenvolvimento.** O conjunto de validação foi escrito pelo mesmo autor, sabendo dos problemas, então não é cego. Antes de qualquer decisão, é preciso revisão humana dos rótulos e um conjunto de afirmações de notícias reais.
 - **Ano de referência:** heurística para releases retrospectivos. Não anota datas com dia nem frases com marcas de futuro, mas pode errar em textos que citam meses futuros sem essas marcas.
-- **Tempo:** a V1 continua lenta nesta máquina (cerca de 11 s por item com 1 a 3 evidências; cerca de 70 s por afirmação com a base). O verificador quase não pesa.
+- **Tempo:** a V1 continua lenta nesta máquina (cerca de 11 s por item com 1 a 3 evidências; cerca de 70 s por afirmação com a base). O verificador quase não pesa. *(08/10: a maior parte disso era o NLI carregado em float16; veja "Desempenho da V1" abaixo.)*
 
 ## Entidade ligada ao número (08/10/2026)
 
@@ -69,3 +69,18 @@ A regra foi escrita para o caso do `pisa-2`, que está no conjunto de desenvolvi
 - **`varejo-jul-2`, V0:** dá NOT_ENOUGH_EVIDENCE aqui e SUPPORTED lá, com a mesma similaridade máxima. Não identifiquei a causa.
 
 Por isso, o dev V1 "antes" registrado acima (9,1%) difere do 6,1% anotado na seção anterior. Comparações só valem com antes e depois rodados na mesma máquina. É mais um argumento para definir os limiares por perfil e com dados revisados: hoje há decisões presas a ±0,001 do corte.
+
+## Desempenho da V1 (08/10/2026)
+
+Medido no Mac M4 (4 threads do torch, só CPU), com `teste_base.py` e com os 141 pares (janela, afirmação) que a análise com a base leva ao NLI nas 8 afirmações:
+- **Onde ia o tempo:** de 53 s de análise, 46 s eram do NLI. O embedding e5 levava 7 s, e a busca na base menos de 1 s.
+- **Causa:** o transformers 5 carrega os pesos no tipo do checkpoint, e o do mDeBERTa da V1 é **float16**. Em CPU, as multiplicações em float16 são muito lentas (no perfil do torch, `addmm` e `bmm` respondiam por 96% do tempo). A V0 não tinha o problema, porque o checkpoint dela já é float32.
+- **Correção** (`veritai/modelos.py`, carregar com `.float()`): os mesmos 141 pares caem de 48,5 s para 6,7 s. O desvio máximo nas probabilidades é de 0,017 (médio de 0,0007), e nenhum par cruza o limiar de 0,72.
+- **Efeito nas predições:** nenhuma muda no desenvolvimento, na validação e no contraste. Inferência do eval: dev de 95,5 s para 22,7 s; validação de 41,0 s para 9,9 s. Ponta a ponta com a base: de 53 s para 21 s nas 8 afirmações (de cerca de 6,7 s para cerca de 2,6 s por afirmação), mantendo 7/8.
+- **Outras opções medidas antes da correção** (ainda em float16, por isso só valem como ordem de grandeza):
+  - 8 threads em vez de 4: cerca de 13% mais rápido;
+  - lotes de 4 pares ordenados por comprimento: cerca de 30% mais rápido, porque o padding de hoje ocupa 1,83 vez as posições úteis; a ordem dos pares muda as probabilidades em até 0,01;
+  - quantização int8 dinâmica: não roda neste torch sem trocar o engine (`qnnpack` no ARM); não testada.
+
+  Nenhuma dessas foi aplicada. Com o float32, o ganho que sobra é pequeno perto do risco de mexer em resultados que estão no limiar.
+- **Não confirmado no i5-1334U** (Windows), onde se mediram os cerca de 70 s por afirmação. O mais provável é que fosse a mesma causa, mas é preciso medir lá.

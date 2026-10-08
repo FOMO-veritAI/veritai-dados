@@ -31,4 +31,4 @@ Comando: `eval/avaliar.py --perfil {v0,v1} --arquivo ../veritai-dados/rotulos/co
 3. **No V1, os 7 itens de IPCA e IPCA-15 saíram NOT_ENOUGH_EVIDENCE**, inclusive paráfrases quase literais. É preciso investigar; as hipóteses são o sinal negativo, o "p.p." na divisão em frases ou a tokenização de percentuais.
 4. **Troca de entidade é o ponto mais fraco dos dois perfis.** Quando o número certo aparece na mesma frase ligado a outra entidade (Enamed × Revalida, Leitura × Matemática), o NLI não separa.
 5. **A armadilha temporal passou nos dois perfis.** Isso acontece porque, aqui, todas as evidências são do mesmo domínio (um grupo só) e os outros meses não geraram contradição forte. Na base real, com os releases do mesmo indicador trazidos pela busca, o problema apareceu (teste de ponta a ponta de 07/10).
-6. **O V1 é cerca de 70 vezes mais lento** nesta máquina.
+6. **O V1 é cerca de 70 vezes mais lento** nesta máquina. *(08/10: em boa parte por carregar o NLI em float16; corrigido, veja `investigacoes/verificador-resultados.md`.)*
