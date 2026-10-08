@@ -2,14 +2,19 @@
 
 `conjunto-base-v0.jsonl` está no formato do `eval/avaliar.py` da VeritAI. Ele é gerado por `gerar_conjunto.py`, que lê as evidências da base própria: texto, URL, data e `documento_base` reais.
 
-## Estado: pendente de revisão humana
+## Estado: conferido por um anotador (08/10/2026)
 
-As afirmações e os rótulos foram escritos por IA (`"autor": "claude-pre"`) a partir de documentos reais, e todos os itens estão com `"revisao": "pendente_humano"`.
+As afirmações e os rótulos foram escritos por IA (`"autor": "claude-pre"`) a partir de documentos reais.
 
-A revisão é feita com as planilhas cegas e o guia de `../revisao/` (anotadores M e I). Antes de usar o conjunto para escolher limiares ou como teste:
-1. **Dupla anotação:** duas pessoas rotulam cada item sem ver o rótulo proposto.
-2. **Concordância:** medir o kappa; discordâncias se resolvem em discussão.
-3. **Registro:** atualizar `revisao`, `autor` e `justificativa`.
+**Revisão feita:** uma pessoa, quem pediu o trabalho, rotulou por conta própria cerca de 70 afirmações dos conjuntos de desenvolvimento e validação, e as 45 checagens de `../mapeamento/revisao-checagens.csv`. Os rótulos da IA só foram vistos depois, e a concordância foi total. Do conjunto de vizinhos, 12 itens amostrados estavam todos certos.
+
+**Limites:**
+- um anotador só, sem kappa;
+- não houve registro de quais itens foram revisados, então o campo `"revisao"` dos itens continua `"pendente_humano"`.
+
+Os números sobre estes conjuntos podem ser apresentados como "rótulos da IA conferidos por um anotador". Não são medida definitiva: falta segundo anotador e falta um conjunto de teste intocado.
+
+Se outra pessoa puder anotar no futuro: duas pessoas rotulam sem ver o rótulo proposto, mede-se o kappa, discute-se a divergência e atualizam-se `revisao`, `autor` e `justificativa`.
 
 ## O que tem
 
