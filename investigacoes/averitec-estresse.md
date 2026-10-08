@@ -92,6 +92,8 @@ Os números abaixo são da V1 sem verificador, em português:
 
 ## Próximos passos sugeridos
 
+*Atualização (08/10): os passos 1 a 3 foram feitos; veja `verificador-custo-beneficio.md`. Correções e alternativa estão no código, e o benefício com busca foi medido no conjunto de vizinhos.*
+
 1. **Corrigir o que é defeito, sem mudar a filosofia do verificador,** e medir de novo nos releases e no AVERITEC-BR:
    - tirar as comparações também da afirmação;
    - na regra de entidade, aceitar o último nome de um nome composto ("Barrett") e uma tabela de equivalentes (EUA/Estados Unidos, Covid/Covid-19);
