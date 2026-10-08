@@ -84,7 +84,8 @@ def fragil(trechos: list[dict], predito: str, passo: float = 0.02) -> bool:
 
 def salvar_trechos(itens) -> list[dict]:
     return [
-        {"grupo": grupo(t), "relacao": t.relacao, "similaridade": round(t.similaridade, 5), "pontuacao": round(t.pontuacao_nli, 5)}
+        # Sem arredondar: uma nota de 0,719996 arredondada viraria 0,72 e passaria no limiar.
+        {"grupo": grupo(t), "relacao": t.relacao, "similaridade": float(t.similaridade), "pontuacao": float(t.pontuacao_nli)}
         for t in itens
     ]
 
