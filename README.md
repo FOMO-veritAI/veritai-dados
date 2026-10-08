@@ -13,6 +13,8 @@ coleta/carregar.py  carrega manifestos na base com a carga da própria VeritAI
 coleta/consultas-checagens.txt  consultas ao Google Fact Check (importar-checagens --consulta)
 mapeamento/vereditos.csv  proposta: veredito da agência → 4 classes da VeritAI
 mapeamento/aplicar.py     aplica o mapeamento às checagens da base e gera a planilha de revisão
+averitec/converter.py     AVeriTeC/AVERITEC-BR (dev) → formato do eval/avaliar.py, só como teste de estresse (CC BY-NC 4.0; dados fora do git)
+averitec/analisar.py      quebra as predições por classe, tipo de alegação e estratégia
 saida/              manifestos e lotes locais (fora do git)
 ```
 
