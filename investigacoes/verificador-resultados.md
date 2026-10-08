@@ -50,3 +50,22 @@ As relações neutralizadas entram nas `limitacoes` do relatório. O contrato co
 - **Regras feitas à mão e ajustadas no conjunto de desenvolvimento.** O conjunto de validação foi escrito pelo mesmo autor, sabendo dos problemas, então não é cego. Antes de qualquer decisão, é preciso revisão humana dos rótulos e um conjunto de afirmações de notícias reais.
 - **Ano de referência:** heurística para releases retrospectivos. Não anota datas com dia nem frases com marcas de futuro, mas pode errar em textos que citam meses futuros sem essas marcas.
 - **Tempo:** a V1 continua lenta nesta máquina (cerca de 11 s por item com 1 a 3 evidências; cerca de 70 s por afirmação com a base). O verificador quase não pesa.
+
+## Entidade ligada ao número (08/10/2026)
+
+Branch local `melhorias/entidade-numero` (no repositório pessoal `fomo-veritai-local`). A regra de número passa a exigir também que o número da janela não esteja ligado a outra entidade. Cada número fica ligado às entidades do seu trecho de frase: até a vírgula, o ponto e vírgula, o fim de parêntese ou o "e" mais próximos, sem passar por outro número. O número da janela só deixa de valer quando duas coisas acontecem juntas: ele está ligado a outra entidade, e a entidade da afirmação está ligada a outro número da mesma janela. Assim, "0,5%, segundo o IBGE" não é bloqueado. Como as outras regras de número, esta só bloqueia o apoio.
+
+**Ablação limpa** (mesma máquina, mesmo ambiente; o commit `ae17a22` contra a branch, em todos os conjuntos e nos dois perfis): **uma única predição muda**, o `pisa-2` ("408 pontos em Matemática", sendo 408 a nota de Leitura), de SUPPORTED para NOT_ENOUGH_EVIDENCE, tanto na V0 quanto na V1. Validação e contraste ficam idênticos.
+
+| Desenvolvimento (65) | antes | depois |
+|---|---|---|
+| V0: macro-F1 / falsas aprovações | 0,408 / 6,1% | 0,411 / 3,0% |
+| V1: macro-F1 / falsas aprovações | 0,568 / 9,1% | 0,564 / 6,1% |
+
+A regra foi escrita para o caso do `pisa-2`, que está no conjunto de desenvolvimento, então isso mostra que ela funciona no caso que motivou a mudança e que não quebra os outros. Não é evidência de ganho geral. O item continua errado (o rótulo é REFUTED), mas o erro passa para o lado seguro.
+
+**Reprodutibilidade entre máquinas.** Rodado aqui (Mac M4, Python 3.14, torch 2.14.1, transformers 5.19, só CPU), o mesmo código do commit `ae17a22` não reproduz 2 das 244 predições guardadas em `artefatos/saida/`, que vieram do Windows:
+- **`pisa-2`, V1:** dá SUPPORTED aqui e NOT_ENOUGH_EVIDENCE lá. A janela decisiva tem entailment 0,720, exatamente no limiar `nli_forte` (≥ 0,72), e uma diferença numérica mínima vira o resultado.
+- **`varejo-jul-2`, V0:** dá NOT_ENOUGH_EVIDENCE aqui e SUPPORTED lá, com a mesma similaridade máxima. Não identifiquei a causa.
+
+Por isso, o dev V1 "antes" registrado acima (9,1%) difere do 6,1% anotado na seção anterior. Comparações só valem com antes e depois rodados na mesma máquina. É mais um argumento para definir os limiares por perfil e com dados revisados: hoje há decisões presas a ±0,001 do corte.
