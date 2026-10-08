@@ -1,0 +1,72 @@
+﻿id,rotulo,evidencia_decisiva,observacao,anotador
+nr-000,insuficiente,,,claude-haiku-pre
+nr-001,insuficiente,,,claude-haiku-pre
+nr-005,insuficiente,,"Trechos citam outras bolsas e valores (Capes, RIE), nenhum sobre o Pé-de-Meia Licenciaturas.",claude-haiku-pre
+nr-012,insuficiente,,,claude-haiku-pre
+nr-017,insuficiente,,,claude-haiku-pre
+nr-018,insuficiente,,"Trecho 3 é do mesmo programa, mas trata de burnout em 9/9, não de prevenção ao suicídio em 10/9.",claude-haiku-pre
+nr-022,insuficiente,,,claude-haiku-pre
+nr-024,insuficiente,,,claude-haiku-pre
+nr-027,insuficiente,,"Trecho 1 diz que a separação não terminou em 7/9, mas não que o processo começou anos antes.",claude-haiku-pre
+nr-029,insuficiente,,,claude-haiku-pre
+nr-030,insuficiente,,,claude-haiku-pre
+nr-032,insuficiente,,,claude-haiku-pre
+nr-035,insuficiente,,,claude-haiku-pre
+nr-037,insuficiente,,,claude-haiku-pre
+nr-039,insuficiente,,,claude-haiku-pre
+nr-040,insuficiente,,,claude-haiku-pre
+nr-041,insuficiente,,,claude-haiku-pre
+nr-042,insuficiente,,,claude-haiku-pre
+nr-044,insuficiente,,,claude-haiku-pre
+nr-045,apoiada,"1,2,3,5",,claude-haiku-pre
+nr-046,apoiada,"6,9",,claude-haiku-pre
+nr-047,apoiada,"1,2",,claude-haiku-pre
+nr-050,apoiada,"1,2",,claude-haiku-pre
+nr-051,apoiada,3,,claude-haiku-pre
+nr-052,insuficiente,4,"Os 2.031 entes são confirmados pelo trecho 4, mas os 615 que manifestaram interesse não aparecem nos trechos.",claude-haiku-pre
+nr-056,apoiada,"1,3",,claude-haiku-pre
+nr-061,insuficiente,,,claude-haiku-pre
+nr-062,insuficiente,,,claude-haiku-pre
+nr-064,apoiada,"1,3",,claude-haiku-pre
+nr-073,insuficiente,,,claude-haiku-pre
+nr-074,insuficiente,,,claude-haiku-pre
+nr-075,insuficiente,,"Trechos falam em recurso do Enamed (7/7) e do Enade (24/7), não do prazo de 16/7 da PND.",claude-haiku-pre
+nr-076,apoiada,3,,claude-haiku-pre
+nr-077,apoiada,"7,9",,claude-haiku-pre
+nr-078,apoiada,4,,claude-haiku-pre
+nr-080,apoiada,"1,3",,claude-haiku-pre
+nr-081,apoiada,1,,claude-haiku-pre
+nr-083,insuficiente,,"Trechos trazem a projeção de 84,4 bi, mas não o superávit de 2025 necessário para checar a alta de 24%.",claude-haiku-pre
+nr-084,apoiada,"6,7",,claude-haiku-pre
+nr-085,insuficiente,,"O acumulado de 62,4 bi é confirmado, mas a projeção de 84,4 bi não aparece nos trechos (só a revisão para baixo).",claude-haiku-pre
+nr-086,insuficiente,,,claude-haiku-pre
+nr-087,apoiada,"1,9",,claude-haiku-pre
+nr-088,insuficiente,,Trechos não trazem o saldo de junho de 2026 nem ranking mensal além do segundo lugar de setembro de 2023.,claude-haiku-pre
+nr-089,insuficiente,1,"O trecho 1 confirma a alta de 77,3% no petróleo bruto, mas não traz o valor de US$ 6,49 bi.",claude-haiku-pre
+nr-091,insuficiente,,,claude-haiku-pre
+nr-092,insuficiente,,,claude-haiku-pre
+nr-093,insuficiente,,,claude-haiku-pre
+nr-094,insuficiente,,,claude-haiku-pre
+nr-098,insuficiente,,,claude-haiku-pre
+nr-099,insuficiente,,,claude-haiku-pre
+nr-100,insuficiente,,,claude-haiku-pre
+nr-101,insuficiente,,,claude-haiku-pre
+nr-102,insuficiente,,,claude-haiku-pre
+nr-103,insuficiente,,,claude-haiku-pre
+nr-104,insuficiente,,,claude-haiku-pre
+nr-107,apoiada,"1,2",,claude-haiku-pre
+nr-108,apoiada,"1,2",,claude-haiku-pre
+nr-109,apoiada,"1,4",,claude-haiku-pre
+nr-111,insuficiente,,,claude-haiku-pre
+nr-112,insuficiente,,,claude-haiku-pre
+nr-114,insuficiente,,,claude-haiku-pre
+nr-115,insuficiente,,,claude-haiku-pre
+nr-119,insuficiente,,,claude-haiku-pre
+nr-121,insuficiente,,"Trechos tratam de outras ações da PF (Alcatrazes, Espigão D'Oeste, Guardião Infiel), nenhum de Tucumã em 5/10.",claude-haiku-pre
+nr-124,insuficiente,,,claude-haiku-pre
+nr-127,apoiada,1,,claude-haiku-pre
+nr-128,apoiada,"1,2",,claude-haiku-pre
+nr-129,apoiada,"3,4",,claude-haiku-pre
+nr-135,apoiada,"1,2",Aviso do Inmet emitido em 2/10 para o fim de semana; o trecho não diz 'à tarde'.,claude-haiku-pre
+nr-140,apoiada,"1,2","Trecho 2 cita MG, RJ e ES em geral, sem o recorte de sudeste de MG e oeste do RJ.",claude-haiku-pre
+nr-143,insuficiente,,"Trecho 1 cita pancadas de chuva nas demais áreas da região, sem trovoadas no Amazonas.",claude-haiku-pre
