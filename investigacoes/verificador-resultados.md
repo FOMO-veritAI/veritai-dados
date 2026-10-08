@@ -84,3 +84,20 @@ Medido no Mac M4 (4 threads do torch, só CPU), com `teste_base.py` e com os 141
 
   Nenhuma dessas foi aplicada. Com o float32, o ganho que sobra é pequeno perto do risco de mexer em resultados que estão no limiar.
 - **Não confirmado no i5-1334U** (Windows), onde se mediram os cerca de 70 s por afirmação. O mais provável é que fosse a mesma causa, mas é preciso medir lá.
+
+## Período de referência do documento no verificador (08/10/2026)
+
+Uma janela que não cita nenhum período (sem contar as comparações) herda o período de referência da fonte. Esse período é o gravado na base (`documentos.periodo_referencia`) ou, para web, publisher e eval, o calculado do título e da data. Ele vale nos dois pontos em que o verificador olha período:
+- **período divergente:** bloqueia apoio e contradição, com o motivo "período divergente (documento de AAAA-MM)";
+- **período do número:** uma frase sem período usa o do documento.
+
+Só se compara na mesma granularidade (mês com mês, trimestre com trimestre, ciclo com ciclo, ano com ano), porque o título de um release de agosto pode trazer um dado do ano. A chave é `verificador.periodo_do_documento` no config (`versao_config` 2026-10-08.1), e a ablação é `eval/avaliar.py --sem-periodo-documento`.
+
+**Resultado:**
+- **Conjuntos rotulados:** a regra não muda nenhuma predição nos 6 (dev, validação e contraste, V0 e V1). Também não teria o que bloquear: das 345 janelas de evidência, 92 não têm período próprio, mas a evidência de cada item é sempre do mesmo período da afirmação. Esses conjuntos foram montados a partir do próprio release, então **não medem esta regra**.
+- **Ponta a ponta com a base** (8 afirmações): os resultados não mudam (V0 6/8, V1 7/8). A regra disparou 5 vezes na V0 e 7 na V1, sempre em janelas de releases de outros meses que não eram as decisivas. Exemplos:
+  - "Nos últimos 12 meses, a variação do IPCA-15 foi de 4,50%", de janeiro de 2025, contra o IPCA-15 de março de 2026;
+  - "Em relação a julho de 2025, a indústria recuou -0,5%", do release de julho de 2026, contra a produção de agosto de 2026.
+
+  Nenhum bloqueio indevido apareceu entre os disparos.
+- **Para medir de verdade,** falta um conjunto com evidência de período vizinho: a afirmação sobre um mês, com o release do mês anterior entre as fontes. É o erro que a recuperação na base produz. Ele cabe no passo 2 (conjunto com afirmações reais), com rótulo revisado.
