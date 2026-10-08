@@ -36,7 +36,11 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 RAIZ = Path(__file__).resolve().parents[1]
-SHA256_DEV = "499793726b4a5406780928a3d9dedc48d6dd53de778f22437d129cacdb08e300"  # revisão 2ca9dee do HF chenxwh/AVeriTeC
+# SHA-256 conferidos na EDA (revisão 2ca9dee do HF chenxwh/AVeriTeC), por partição.
+SHA256 = {
+    "dev": "499793726b4a5406780928a3d9dedc48d6dd53de778f22437d129cacdb08e300",
+    "train": "ae5eda7c42ddf1695ef185a7ba1bc716928f5adf57103e4f78aae5f9afe00f9c",
+}
 ROTULOS = {
     "Supported": "SUPPORTED",
     "Refuted": "REFUTED",
@@ -95,7 +99,7 @@ def traduzir(alegacoes: list[dict], traducao: list[dict], contagem: Counter) -> 
     return resultado
 
 
-def converter(alegacoes: list[tuple[int, dict]], com_unanswerable: bool, sem_site_da_checagem: bool) -> tuple[list[dict], Counter]:
+def converter(alegacoes: list[tuple[int, dict]], com_unanswerable: bool, sem_site_da_checagem: bool, particao: str = "dev") -> tuple[list[dict], Counter]:
     itens, contagem = [], Counter()
     for indice, alegacao in alegacoes:
         data = datetime.strptime(alegacao["claim_date"], "%d-%m-%Y").date().isoformat() if alegacao.get("claim_date") else ""
@@ -121,13 +125,13 @@ def converter(alegacoes: list[tuple[int, dict]], com_unanswerable: bool, sem_sit
                 evidencias.append(evidencia)
         contagem["itens sem evidência"] += not evidencias
         itens.append({
-            "id": f"averitec-dev-{indice:03d}",
+            "id": f"averitec-{particao}-{indice:04d}" if particao != "dev" else f"averitec-dev-{indice:03d}",
             "afirmacao": alegacao["claim"],
             "evidencias": evidencias,
             "rotulo": ROTULOS[alegacao["label"]],
-            "evento": f"averitec-dev-{indice:03d}",
+            "evento": f"averitec-{particao}-{indice:04d}" if particao != "dev" else f"averitec-dev-{indice:03d}",
             "data": data,
-            "fonte": "AVeriTeC dev (CC BY-NC 4.0)",
+            "fonte": f"AVeriTeC {particao} (CC BY-NC 4.0)",
             # Só para leitura humana; avaliar.py não usa este campo como entrada.
             "justificativa": alegacao.get("justification") or "",
             "tipos": alegacao.get("claim_types") or [],
@@ -145,18 +149,19 @@ def main() -> None:
     args = parser.parse_args()
     bruto = args.entrada.read_bytes()
     sha = hashlib.sha256(bruto).hexdigest()
-    if sha != SHA256_DEV:
-        print(f"Aviso: SHA-256 {sha} difere da revisão conferida na EDA ({SHA256_DEV}).")
+    particao = next((nome for nome, esperado in SHA256.items() if esperado == sha), args.entrada.stem)
+    if sha not in SHA256.values():
+        print(f"Aviso: SHA-256 {sha} não é nenhuma das partições conferidas na EDA; a saída usa o nome do arquivo ({particao}).")
     alegacoes, previa = list(enumerate(json.loads(bruto))), Counter()
     if args.traducao:
         alegacoes = traduzir([a for _, a in alegacoes], json.loads(args.traducao.read_text(encoding="utf-8")), previa)
-    itens, contagem = converter(alegacoes, args.com_unanswerable, args.sem_site_da_checagem)
+    itens, contagem = converter(alegacoes, args.com_unanswerable, args.sem_site_da_checagem, particao)
     contagem.update(previa)
     for item in itens:
         if args.traducao:
-            item["fonte"] = "AVERITEC-BR dev (tradução do AVeriTeC, CC BY-NC 4.0)"
+            item["fonte"] = f"AVERITEC-BR {particao} (tradução do AVeriTeC, CC BY-NC 4.0)"
     sufixo = ("-pt" if args.traducao else "") + ("-com-unanswerable" if args.com_unanswerable else "") + ("-sem-site-da-checagem" if args.sem_site_da_checagem else "")
-    saida = RAIZ / "saida" / "averitec" / f"dev{sufixo}.jsonl"
+    saida = RAIZ / "saida" / "averitec" / f"{particao}{sufixo}.jsonl"
     saida.parent.mkdir(parents=True, exist_ok=True)
     saida.write_text("".join(json.dumps(item, ensure_ascii=False) + "\n" for item in itens), encoding="utf-8")
     print(f"{len(itens)} itens em {saida.relative_to(RAIZ)}; {dict(contagem)}")

@@ -51,6 +51,9 @@ CONJUNTOS = {
     "avbr": RAIZ / "saida" / "averitec" / "dev-pt.jsonl",
     "aven": RAIZ / "saida" / "averitec" / "dev.jsonl",
     "viz": RAIZ / "rotulos" / "conjunto-vizinhos-v0.jsonl",
+    # Teste intocado: treino do AVeriTeC, nunca usado para ajustar regras ou limiares. Rode uma vez, com a config final.
+    "avbr_teste": RAIZ / "saida" / "averitec" / "train-pt.jsonl",
+    "aven_teste": RAIZ / "saida" / "averitec" / "train.jsonl",
 }
 CONFIGS = {
     "padrao": {},
@@ -168,7 +171,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--perfis", nargs="+", default=["v1", "v0"])
     parser.add_argument("--configs", nargs="+", default=["padrao", "sem", "alternativa"], choices=list(CONFIGS))
-    parser.add_argument("--conjuntos", nargs="+", default=list(CONJUNTOS), choices=list(CONJUNTOS))
+    parser.add_argument("--conjuntos", nargs="+", default=[c for c in CONJUNTOS if not c.endswith("_teste")], choices=list(CONJUNTOS))
     parser.add_argument("--nome", default="")
     args = parser.parse_args()
 
