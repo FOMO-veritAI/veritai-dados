@@ -1,6 +1,6 @@
 # Extração de afirmações por regras, abordagem A (08/10/2026)
 
-O módulo é `veritai/extracao.py`: uma função pura, `extrair(titulo, texto, data)`, ainda **sem endpoint**. Um `/extrair` muda o contrato com o FOMO e precisa ser combinado com o dev. Não há LLM.
+O módulo é `veritai/extracao.py`, exposto em `POST /extrair` (contrato no README do veritai). O endpoint só propõe candidatas: o publicador confirma, edita ou descarta cada uma antes do `/analisar`. Não há LLM.
 
 ## Como funciona
 
@@ -26,18 +26,19 @@ Também são registrados os sinais e a atribuição ("segundo o IBGE" → `IBGE`
 ## Resultados
 
 **Notícias da base** (290: Agência Brasil, Agência Gov e gov.br/INEP; `extracao/extrair_noticias.py`):
-- **Volume:** 1.415 candidatas, mediana de 4 por notícia, 54 notícias no limite de 10 e 10 notícias sem nenhuma.
+- **Volume:** 1.371 candidatas, mediana de 3 por notícia, 54 notícias no limite de 10 e 12 notícias sem nenhuma.
 - **Alertas:**
 
   | Alerta | Candidatas |
   |---|---|
-  | sem período | 40% |
-  | depende da frase anterior | 8% |
-  | futuro ou intenção | 6% |
-  | citação | 5% |
+  | sem período | 39% |
+  | futuro ou intenção | 9% |
+  | depende da frase anterior | 7% |
+  | citação | 6% |
 
-- **Datas completadas:** 115 candidatas tiveram a data completada.
-- **Sem medida de qualidade ainda:** não há anotação. A amostra de 30 notícias (153 candidatas) e o guia estão em `rotulos/extracao-v0/`.
+- **Datas completadas:** 111 candidatas tiveram a data completada.
+- **Sem medida de qualidade ainda:** não há anotação. A amostra de 30 notícias (150 candidatas) e o guia estão em `rotulos/extracao-v0/`.
+- **Números após dois ajustes** feitos ao testar o endpoint: o ordinal "segundo maior" não é mais lido como atribuição, e "será" passou a contar como futuro. A primeira rodada deu 1.415 candidatas.
 
 **CheckThat! 2025 T2 PT** (`veritai/eval/avaliar_extracao.py`; posts de rede social contra a alegação normalizada):
 
