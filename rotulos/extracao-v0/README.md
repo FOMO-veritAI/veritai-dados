@@ -2,6 +2,8 @@
 
 Material para avaliar a extração por regras (`veritai/extracao.py`, abordagem A, sem LLM) em notícias reais da base: Agência Brasil, Agência Gov e gov.br/INEP. A amostra é de 30 notícias sorteadas com semente 0, gerada por `extracao/extrair_noticias.py`.
 
+**Para anotar, use as abas "Extração" e "Faltantes" das planilhas em `../../revisao/planilhas/`**, que já têm as listas suspensas e não mostram pontuação, sinais nem alertas. Os CSVs abaixo são a origem dessas abas.
+
 - `anotacao.csv`: uma linha por afirmação proposta pelo extrator (150 nesta amostra).
 - `faltantes.csv`: uma linha por notícia, para listar o que o extrator deixou passar.
 

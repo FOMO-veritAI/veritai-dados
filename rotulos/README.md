@@ -6,7 +6,7 @@
 
 As afirmações e os rótulos foram escritos por IA (`"autor": "claude-pre"`) a partir de documentos reais, e todos os itens estão com `"revisao": "pendente_humano"`.
 
-Antes de usar o conjunto para escolher limiares ou como teste:
+A revisão é feita com as planilhas cegas e o guia de `../revisao/` (anotadores M e I). Antes de usar o conjunto para escolher limiares ou como teste:
 1. **Dupla anotação:** duas pessoas rotulam cada item sem ver o rótulo proposto.
 2. **Concordância:** medir o kappa; discordâncias se resolvem em discussão.
 3. **Registro:** atualizar `revisao`, `autor` e `justificativa`.
