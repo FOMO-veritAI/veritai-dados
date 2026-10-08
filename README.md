@@ -17,6 +17,7 @@ averitec/converter.py     AVeriTeC/AVERITEC-BR (dev) → formato do eval/avaliar
 averitec/analisar.py      quebra as predições por classe, tipo de alegação e estratégia
 rotulos/gerar_vizinhos.py conjunto de vizinhos (releases do IBGE, rótulo pelo título oficial) para testar com busca na base
 investigacoes/teste_vizinhos.py  roda o conjunto de vizinhos com busca na base própria
+extracao/extrair_noticias.py      extração por regras nas notícias da base e amostra para anotação (rotulos/extracao-v0/)
 saida/              manifestos e lotes locais (fora do git)
 ```
 
