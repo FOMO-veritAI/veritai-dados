@@ -8,3 +8,4 @@ saida/
 .venv/
 __pycache__/
 *.pyc
+avaliacao/veritai-colab.zip

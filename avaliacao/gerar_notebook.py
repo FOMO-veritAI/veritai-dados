@@ -16,7 +16,30 @@ Notebook da entrega de documentação e validação dos modelos de IA (Grupo 5, 
 
 **Como rodar:** kernel `VeritAI (.venv)` (o `.venv` do repositório `veritai`, com `pip install -e ".[modelos,dev,notebook]"`), a partir de `veritai-dados/avaliacao/`. A base própria precisa estar em `veritai/data/veritai.sqlite3` (restaurada de `artefatos/veritai.sqlite3.gz` e migrada com `python -m veritai.base migrar`). A execução completa, com as partes ao vivo, leva poucos minutos num Mac M4; as tabelas completas vêm da última execução da bateria (`avaliacao/bateria.py`), porque rodá-la leva de 30 a 45 minutos. Para rodar tudo de novo aqui, mude `RODAR_BATERIA` para `True`.
 
+**No Google Colab:** gere o pacote com `python avaliacao/empacotar_colab.py` (a partir de `veritai-dados/`) e rode a célula abaixo; ela pede o upload de `veritai-colab.zip`, instala as dependências e posiciona o notebook. O pacote traz o código, os rótulos, a base própria e os resultados da última bateria. A primeira execução baixa os modelos do Hugging Face (cerca de 2 GB) e leva alguns minutos; o ambiente de CPU basta.
+
 **Sobre os rótulos:** os conjuntos de releases (desenvolvimento e validação), as checagens e uma amostra dos vizinhos foram escritos por IA e **conferidos por um anotador**, com concordância total; os demais conjuntos são pré-rotulagem. Os números orientam decisões; não são medida definitiva (falta segundo anotador).
+""")
+
+py("""
+# Só no Google Colab: recebe o pacote da VeritAI (veritai-colab.zip), instala as dependências e posiciona o notebook.
+import sys
+
+if "google.colab" in sys.modules:
+    import os
+    import subprocess
+    import zipfile
+    from pathlib import Path
+
+    from google.colab import files
+
+    RAIZ_COLAB = Path("/content/fomo-veritai-local")
+    if not (RAIZ_COLAB / "veritai" / "pyproject.toml").exists():
+        enviado = files.upload()  # escolha o veritai-colab.zip
+        zipfile.ZipFile(next(iter(enviado))).extractall(RAIZ_COLAB)
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-e", f"{RAIZ_COLAB / 'veritai'}[modelos,notebook]"], check=True)
+    os.chdir(RAIZ_COLAB / "veritai-dados" / "avaliacao")
+    print("pronto:", Path.cwd())
 """)
 
 py("""
