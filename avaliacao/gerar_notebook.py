@@ -270,17 +270,18 @@ md("""
 md("""
 ## 7. Notícias reais de ponta a ponta
 
-**Pergunta:** no cenário mais próximo do uso real (afirmações extraídas de notícias, busca na base sem a notícia de origem), a VeritAI concorda com a conferência humana? E uma IA conferindo, concorda?
+**Pergunta:** no cenário mais próximo do uso real (afirmações extraídas de notícias, busca na base sem a notícia de origem), a VeritAI concorda com uma conferência independente?
+
+Até aqui, a conferência foi feita só por IA (subagente Claude Haiku, às cegas: viu a afirmação e os trechos mostrados pela VeritAI, sem o resultado dela). A conferência humana ficará com um integrante do grupo que não leu este notebook nem o relatório; quando ela existir, o script abaixo passa a usá-la como referência.
 """)
 
 py("""
-conferencia = pd.read_csv(DADOS / "rotulos" / "noticias-reais-v0" / "conferencia.csv")
-coluna = "rotulo (apoiada/refutada/insuficiente/conflitante)"
-preenchidos = conferencia[coluna].notna().sum()
-if preenchidos:
-    subprocess.run([sys.executable, str(DADOS / "investigacoes" / "comparar_conferencias.py")], cwd=DADOS, check=True)
-else:
-    print(f"Conferência humana ainda não feita ({len(conferencia)} afirmações). Os resultados da VeritAI e da IA não são mostrados para manter a conferência cega.")
+saida = subprocess.run([sys.executable, str(DADOS / "investigacoes" / "comparar_conferencias.py")], cwd=DADOS, check=True, capture_output=True, text=True)
+print(saida.stdout)
+""")
+
+md("""
+**Conclusão:** a VeritAI não aprovou nenhuma afirmação que a conferência por IA deixou sem apoio, mas refutou 13 das 71, e a conferência não considerou nenhuma delas refutada. As refutações vêm de trechos do mesmo documento sobre outra grandeza (o acumulado do ano contra o mês), de outras datas do mesmo calendário, de datas relativas na evidência ("nesta terça-feira (6)") e de trechos de outro assunto. A referência ainda é de IA: os números mudam quando a conferência humana for feita.
 """)
 
 md("""

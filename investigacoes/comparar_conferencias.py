@@ -5,7 +5,8 @@ Uso, a partir de veritai-dados/, depois de preencher a coluna de rótulo em rotu
 
 Mostra a concordância (porcentagem e kappa de Cohen) entre os pares: humano × IA, humano × VeritAI e IA × VeritAI,
 com a matriz de confusão e a lista das divergências. Tomando a conferência humana como referência, mostra também as
-métricas da VeritAI (acerto, falsas aprovações, falsas refutações).
+métricas da VeritAI (acerto, falsas aprovações, falsas refutações); enquanto não houver conferência humana,
+as mesmas métricas saem com a conferência por IA como referência.
 """
 
 import csv
@@ -65,17 +66,28 @@ def main() -> None:
     comparar("humano", humano, "IA", ia, afirmacoes)
     comparar("humano", humano, "VeritAI", veritai, afirmacoes)
     comparar("IA", ia, "VeritAI", veritai, afirmacoes)
-    if humano:
-        ids = sorted(set(humano) & set(veritai))
-        negativos = [i for i in ids if humano[i] != "SUPPORTED"]
-        apoiadas = [i for i in ids if humano[i] == "SUPPORTED"]
-        print("\nVeritAI com a conferência humana como referência:")
-        print(f"  acerto {sum(humano[i] == veritai[i] for i in ids) / len(ids):.1%}")
-        if negativos:
-            print(f"  falsas aprovações {sum(veritai[i] == 'SUPPORTED' for i in negativos) / len(negativos):.1%} ({len(negativos)} itens não apoiados)")
-        if apoiadas:
-            print(f"  falsas refutações {sum(veritai[i] == 'REFUTED' for i in apoiadas) / len(apoiadas):.1%} ({len(apoiadas)} itens apoiados)")
+    # Métricas da VeritAI com cada conferência como referência (a humana, quando existir, é a que vale).
+    for nome, referencia in (("humana", humano), ("por IA", ia)):
+        if referencia:
+            metricas(nome, referencia, veritai)
 
+
+def metricas(nome: str, referencia: dict, veritai: dict) -> None:
+    ids = sorted(set(referencia) & set(veritai))
+    negativos = [i for i in ids if referencia[i] != "SUPPORTED"]
+    apoiadas = [i for i in ids if referencia[i] == "SUPPORTED"]
+    print(f"\nVeritAI com a conferência {nome} como referência ({len(ids)} itens):")
+    print(f"  acerto {sum(referencia[i] == veritai[i] for i in ids) / len(ids):.1%}")
+    if negativos:
+        print(f"  falsas aprovações {sum(veritai[i] == 'SUPPORTED' for i in negativos) / len(negativos):.1%} ({len(negativos)} itens não apoiados)")
+    if apoiadas:
+        print(f"  falsas refutações {sum(veritai[i] == 'REFUTED' for i in apoiadas) / len(apoiadas):.1%} ({len(apoiadas)} itens apoiados)")
+    for classe in ("SUPPORTED", "REFUTED", "NOT_ENOUGH_EVIDENCE", "CONFLICTING_EVIDENCE"):
+        previstos = [i for i in ids if veritai[i] == classe]
+        reais = [i for i in ids if referencia[i] == classe]
+        if previstos or reais:
+            certos = sum(referencia[i] == classe for i in previstos)
+            print(f"  {CURTO[classe]}: referência {len(reais)}, VeritAI {len(previstos)}, coincidentes {certos}")
 
 if __name__ == "__main__":
     main()
