@@ -1,0 +1,11 @@
+# Saídas locais: manifestos com texto, bases e lotes (reproduzíveis pelos scripts)
+saida/
+*.sqlite3
+*.sqlite3-*
+
+# Segredos e ambiente
+.env
+.venv/
+__pycache__/
+*.pyc
+avaliacao/veritai-colab.zip
